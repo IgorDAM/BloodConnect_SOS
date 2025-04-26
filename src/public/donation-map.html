@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Centros de Donación | BloodConnect</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/map-styles.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://via.placeholder.com/120x40?text=BloodConnect" alt="BloodConnect Logo">
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="donation-map.html" class="active">Centros de Donación</a></li>
+                <li><a href="schedule.html">Agendar Cita</a></li>
+                <li><a href="about.html">Sobre Nosotros</a></li>
+                <li><a href="faq.html">Preguntas Frecuentes</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <button class="btn-secondary btn-sm"><i class="fas fa-user"></i> Iniciar Sesión</button>
+            <button class="btn-primary btn-sm">Registrarse</button>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="page-title">
+            <h1>Mapa de Centros de Donación</h1>
+            <p>Encuentra centros de donación de sangre cercanos a ti y verifica qué tipos de sangre se necesitan urgentemente.</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-hospital"></i></div>
+                <div class="stat-info">
+                    <h3>Centros Totales</h3>
+                    <p class="stat-value" id="total-centers">0</p>
+                </div>
+            </div>
+            <div class="stat-card urgent">
+                <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="stat-info">
+                    <h3>Urgentes</h3>
+                    <p class="stat-value" id="urgent-centers">0</p>
+                </div>
+            </div>
+            <div class="stat-card nearby">
+                <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="stat-info">
+                    <h3>Cercanos</h3>
+                    <p class="stat-value" id="nearby-centers">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div class="sidebar">
+                <div class="search-box">
+                    <h3>Buscar por ubicación</h3>
+                    <div class="search-input-group">
+                        <input type="text" id="search-input" placeholder="Introduce una dirección o ciudad...">
+                        <button id="search-button" class="btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button id="location-button" class="btn-secondary locate-btn">
+                        <i class="fas fa-crosshairs"></i> Usar mi ubicación
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <h3>Filtros</h3>
+                    
+                    <div class="filter-section">
+                        <h4>Nivel de urgencia</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-high">
+                                <span class="checkmark high"></span>
+                                <span>Alta</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-medium">
+                                <span class="checkmark medium"></span>
+                                <span>Media</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-low">
+                                <span class="checkmark low"></span>
+                                <span>Baja</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Tipo de sangre</h4>
+                        <div class="blood-type-grid">
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-opos">
+                                <span class="blood-type">O+</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-oneg">
+                                <span class="blood-type">O-</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-apos">
+                                <span class="blood-type">A+</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-aneg">
+                                <span class="blood-type">A-</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-bpos">
+                                <span class="blood-type">B+</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-bneg">
+                                <span class="blood-type">B-</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-abpos">
+                                <span class="blood-type">AB+</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" id="filter-abneg">
+                                <span class="blood-type">AB-</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-info">
+                    <h3>Unidades móviles</h3>
+                    <p>También puedes encontrar unidades móviles de donación. Consulta el calendario para saber cuándo estarán en tu zona.</p>
+                    <button class="btn-secondary"><i class="fas fa-calendar-alt"></i> Ver calendario</button>
+                </div>
+            </div>
+            
+            <div id="map" class="map"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://via.placeholder.com/120x40?text=BloodConnect" alt="BloodConnect Logo">
+                <p>Conectando donantes con quienes más lo necesitan</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>BloodConnect</h4>
+                    <ul>
+                        <li><a href="about.html">Sobre Nosotros</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="careers.html">Trabaja con Nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li><a href="guides.html">Guías Donantes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacidad</a></li>
+                        <li><a href="terms.html">Términos de Uso</a></li>
+                        <li><a href="cookies.html">Política de Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 BloodConnect. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS (debe ir antes de nuestro script) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+            
+    <!-- Nuestro JS -->
+    <script src="./js/map.js"></script>
+</body>
+</html> 

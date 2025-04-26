@@ -1,0 +1,48 @@
+:root {
+    --primary-color: #e74c3c;
+    --secondary-color: #c0392b;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --border-radius: 10px;
+    --box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin: 20px 0;
+}
+
+.card {
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin: 10px 0;
+    background: white;
+}
+
+#estadoDisponibilidad {
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: var(--border-radius);
+}
+
+.emergency {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.hospital {
+    background-color: var(--secondary-color);
+    color: white;
+} 

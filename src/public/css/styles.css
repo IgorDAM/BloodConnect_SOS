@@ -1,0 +1,164 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos del mapa */
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Barra de búsqueda */
+.search-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* Estilos de los botones */
+.btn-primary {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.btn-find-route {
+    display: flex;
+    align-items: center;
+    background-color: #3498db;
+    border-color: #3498db;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-find-route:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-find-route i {
+    margin-right: 5px;
+}
+
+/* Filtros y checkboxes */
+.form-check {
+    margin-right: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
+/* Leyenda del mapa */
+.map-legend {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.legend-green {
+    background-color: #2ecc71;
+}
+
+.legend-yellow {
+    background-color: #f1c40f;
+}
+
+.legend-red {
+    background-color: #e74c3c;
+}
+
+/* Estilos para los marcadores personalizados */
+.custom-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.emergency-marker {
+    background-color: #e74c3c;
+}
+
+.hospital-marker {
+    background-color: #3498db;
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    #map {
+        height: 300px;
+    }
+    
+    .search-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    .form-check {
+        margin-bottom: 10px;
+    }
+} 

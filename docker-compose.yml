@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - auth-service
+      - donor-service
+      - hospital-service
+
+  auth-service:
+    build: ./services/auth
+    environment:
+      - DB_HOST=db
+      - NODE_ENV=production
+
+  donor-service:
+    build: ./services/donor
+    environment:
+      - DB_HOST=db
+      - NODE_ENV=production
+
+  hospital-service:
+    build: ./services/hospital
+    environment:
+      - DB_HOST=db
+      - NODE_ENV=production
+
+  db:
+    image: oracle/database:19.3.0-ee
+    ports:
+      - "1521:1521"
+    environment:
+      - ORACLE_PWD=bloodconnect123
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  oracle-data:
+  redis-data:
+
+networks:
+  default:
+    name: bloodconnect-network
+
+    backend:                   # ✅ Nuevo servicio para Spring Boot
+    build: ./backend-java    # Requiere un Dockerfile en esa carpeta
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin://db:1521/XEPDB1
+
+  frontend:                  # ✅ Nuevo servicio para el frontend
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html  # Mapea tus archivos estáticos
